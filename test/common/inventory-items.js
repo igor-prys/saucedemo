@@ -5,9 +5,9 @@ import { browser, $ } from '@wdio/globals'
  * @param {number=} itemIndex min value is 1. If item already added it will be removed.
  */
 export async function addOrRemoveItemToCart(itemIndex) {
-    const inventoryItem = await getItemElement(itemIndex)
-    const addToCartBtn = await inventoryItem.$('.btn_inventory')
-    await addToCartBtn.click()
+    const inventoryItem = await getItemElement(itemIndex);
+    const addToCartBtn = await inventoryItem.$('.btn_inventory');
+    await addToCartBtn.click();
 }
 
 /**
@@ -15,9 +15,9 @@ export async function addOrRemoveItemToCart(itemIndex) {
  * @param {number=} itemIndex min value is 1.
  */
 export async function getItemTitle(itemIndex) {
-    const inventoryItem = await getItemElement(itemIndex)
+    const inventoryItem = await getItemElement(itemIndex);
     const itemTitle = await inventoryItem.$('div.inventory_item_name').getText();
-    return itemTitle
+    return itemTitle;
 }
 
 /**

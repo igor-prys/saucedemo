@@ -22,7 +22,7 @@ describe('Menu', () => {
         await login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
 
         await openMenu();
-        const aboutLinkElement = await $('#about_sidebar_link')
+        const aboutLinkElement = await $('#about_sidebar_link');
 
         //When
         await aboutLinkElement.click();
@@ -77,7 +77,7 @@ describe('Menu', () => {
 
         // Then
         currentUrl = await browser.getUrl();
-        expect(currentUrl).toBe(BASE_URL + '/inventory.html')
+        expect(currentUrl).toBe(BASE_URL + '/inventory.html');
         await expect($('#inventory_container')).toBeExisting();
     })
 
