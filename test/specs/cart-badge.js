@@ -1,5 +1,5 @@
 import LoginPage from '../pageobjects/login.page.js';
-import { LOGIN_CREDENTIALS } from '../common/data.js'
+import { LOGIN_CREDENTIALS } from '../common/data.js';
 import InventoryPage from '../pageobjects/inventory.page.js';
 
 describe('Cart', () => {

@@ -1,5 +1,5 @@
-import { expect } from '@wdio/globals'
-import { LOGIN_CREDENTIALS } from '../common/data.js'
+import { expect } from '@wdio/globals';
+import { LOGIN_CREDENTIALS } from '../common/data.js';
 
 import MenuComponent from '../pageobjects/menu.component.js';
 import LoginPage from '../pageobjects/login.page.js';

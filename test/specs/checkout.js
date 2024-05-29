@@ -7,7 +7,6 @@ import CheckoutStepOnePage from '../pageobjects/checkout-step-one.page.js';
 import CheckoutStepTwoPage from '../pageobjects/checkout-step-two.page.js';
 import CheckoutCompletePage from '../pageobjects/checkout-complete.page.js';
 
-
 describe('Checkout', () => {
     before(async () => {
         await LoginPage.open();

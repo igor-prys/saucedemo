@@ -1,8 +1,8 @@
 import LoginPage from '../pageobjects/login.page.js';
 import FooterComponent from '../pageobjects/footer.component.js';
 import InventoryPage from '../pageobjects/inventory.page.js';
-import { expect } from '@wdio/globals'
-import { LOGIN_CREDENTIALS } from '../common/data.js'
+import { expect } from '@wdio/globals';
+import { LOGIN_CREDENTIALS } from '../common/data.js';
 import assert from 'assert';
 
 describe('Footer', () => {
