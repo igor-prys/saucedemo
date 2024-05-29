@@ -2,7 +2,7 @@ import Page from "./page.js";
 
 class CartPage extends Page {
     get itemList() {
-        return $$('.cart_list .cart_item')
+        return $$('.cart_list .cart_item');
     }
 
     get checkoutButton() {
@@ -18,12 +18,12 @@ class CartPage extends Page {
     }
 
     async getAmoutOfItems() {
-        return await this.itemList.length
+        return await this.itemList.length;
     }
 
     async clickCheckoutButton() {
         const checkoutBtn = await this.checkoutButton;
-        await checkoutBtn.click()
+        await checkoutBtn.click();
     }
 
     getUrl() {

@@ -5,10 +5,10 @@ class InventoryPage extends Page {
         return $('#shopping_cart_container');
     }
     get cartButton() {
-        return $('.shopping_cart_link')
+        return $('.shopping_cart_link');
     }
     get cartBadge() {
-        return $('.shopping_cart_container .shopping_cart_badge')
+        return $('.shopping_cart_container .shopping_cart_badge');
     }
     get inventoryContainer() {
         return $('#inventory_container');
@@ -18,11 +18,11 @@ class InventoryPage extends Page {
     }
 
     get productList() {
-        return $('.inventory_container .inventory_list')
+        return $('.inventory_container .inventory_list');
     }
 
     get pricesOfItems() {
-        return $$('.inventory_item_price')
+        return $$('.inventory_item_price');
     }
 
     get namesOfItems() {
@@ -51,7 +51,7 @@ class InventoryPage extends Page {
     }
 
     getCartBadgeValue() {
-        return this.cartBadge.getText()
+        return this.cartBadge.getText();
     }
 
     async clickCart() {
@@ -78,9 +78,9 @@ class InventoryPage extends Page {
      * @param {number=} itemIndex min value is 1. If item already added it will be removed.
      */
     async clickAddOrRemoveItemToCartButton(itemIndex) {
-        const inventoryItem = await this.getProductItemById(itemIndex)
-        const addToCartBtn = await inventoryItem.$('.btn_inventory')
-        await addToCartBtn.click()
+        const inventoryItem = await this.getProductItemById(itemIndex);
+        const addToCartBtn = await inventoryItem.$('.btn_inventory');
+        await addToCartBtn.click();
     }
 
     getProductItemById(itemIndex) {
@@ -93,9 +93,9 @@ class InventoryPage extends Page {
      * @param {number=} itemIndex min value is 1.
      */
     async getItemTitle(itemIndex) {
-        const inventoryItem = await this.getProductItemById(itemIndex)
+        const inventoryItem = await this.getProductItemById(itemIndex);
         const itemTitle = await inventoryItem.$('div.inventory_item_name').getText();
-        return itemTitle
+        return itemTitle;
     }
 
     /**

@@ -4,7 +4,7 @@
 */
 export default class Page {
     getUrl() {
-        return `https://www.saucedemo.com`;
+        return 'https://www.saucedemo.com';
     }
 
     open() {

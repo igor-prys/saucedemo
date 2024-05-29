@@ -9,8 +9,8 @@ import CartPage from '../pageobjects/cart.page.js';
 describe('Menu', () => {
     it('menu should contain all items', async () => {
         // Given
-        await LoginPage.open()
-        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password)
+        await LoginPage.open();
+        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
 
         // When
         await MenuComponent.openMenu();
@@ -24,8 +24,8 @@ describe('Menu', () => {
 
     it('should click menu-item About', async () => {
         // Given
-        await LoginPage.open()
-        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password)
+        await LoginPage.open();
+        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
 
         await MenuComponent.openMenu();
 
@@ -40,8 +40,8 @@ describe('Menu', () => {
 
     it('should click menu-item Reset App State', async () => {
         // Given
-        await LoginPage.open()
-        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password)
+        await LoginPage.open();
+        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
 
         // add item to cart
         await InventoryPage.clickAddOrRemoveItemToCartButton(1);
@@ -60,8 +60,8 @@ describe('Menu', () => {
 
     it('should click menu-item All Items', async () => {
         // Given
-        await LoginPage.open()
-        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password)
+        await LoginPage.open();
+        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
 
         // Navigate to cart
         await InventoryPage.clickCart();

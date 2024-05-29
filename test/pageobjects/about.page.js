@@ -3,7 +3,7 @@ import Page from "./page.js";
 class AboutPage extends Page {
 
     get testItAllButton() {
-        return $('button=Test it all. Free')
+        return $('button=Test it all. Free');
     }
 
     async isTestItAllButtinDisplayed() {

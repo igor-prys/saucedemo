@@ -14,12 +14,10 @@ const ERROR_MESSAGES = {
 describe('Login in', () => {
     it('should login with valid credentials', async () => {
         // Given
-        await LoginPage.open()
+        await LoginPage.open();
 
         // When
-        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password)
-
-        // await browser.pause(3000)
+        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
 
         // Then
         const currentUrl = await browser.getUrl();
@@ -31,10 +29,10 @@ describe('Login in', () => {
 
     it('login with invalid password', async () => {
         // Given
-        await LoginPage.open()
+        await LoginPage.open();
 
         // When
-        await LoginPage.login(LOGIN_CREDENTIALS.login, 'INVALID_PASSWORD')
+        await LoginPage.login(LOGIN_CREDENTIALS.login, 'INVALID_PASSWORD');
 
         // Then
         expect(await LoginPage.isErrorDisplayed()).toBe(true);
@@ -45,9 +43,10 @@ describe('Login in', () => {
 
     it('login with invalid username', async () => {
         // Given
-        await LoginPage.open()
+        await LoginPage.open();
+
         // When
-        await LoginPage.login('INVALID_USERNAME', LOGIN_CREDENTIALS.password)
+        await LoginPage.login('INVALID_USERNAME', LOGIN_CREDENTIALS.password);
 
         // Then
         await expect(await LoginPage.isErrorDisplayed()).toBe(true);
@@ -58,10 +57,10 @@ describe('Login in', () => {
 
     it('login without username', async () => {
         // Given
-        await LoginPage.open()
+        await LoginPage.open();
 
         // When
-        await LoginPage.login('', LOGIN_CREDENTIALS.password)
+        await LoginPage.login('', LOGIN_CREDENTIALS.password);
 
         // Then
         await expect(await LoginPage.isErrorDisplayed()).toBe(true);
@@ -72,10 +71,10 @@ describe('Login in', () => {
 
     it('login without password', async () => {
         // Given
-        await LoginPage.open()
+        await LoginPage.open();
 
         // When
-        await LoginPage.login(LOGIN_CREDENTIALS.login, '')
+        await LoginPage.login(LOGIN_CREDENTIALS.login, '');
 
         // Then
         await expect(await LoginPage.isErrorDisplayed()).toBe(true);
@@ -86,8 +85,8 @@ describe('Login in', () => {
 
     it('should logout successfully', async () => {
         // Given
-        await LoginPage.open()
-        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password)
+        await LoginPage.open();
+        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
 
         // When
         await MenuComponent.logout();

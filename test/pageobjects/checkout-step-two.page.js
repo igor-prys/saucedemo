@@ -11,7 +11,7 @@ class CheckoutStepTwoPage extends Page {
     }
 
     async getPriceTotalNumericValue() {
-        const priceElement = await this.priceTotal
+        const priceElement = await this.priceTotal;
         const priceTextValue = await priceElement.getText();
         return parseFloat(priceTextValue.replace('Item total: $', ''));
     }
@@ -22,7 +22,7 @@ class CheckoutStepTwoPage extends Page {
 
     async getItemNameByItemIndex(index) {
         const items = await this.cartItems;
-        return items[index].$('div.inventory_item_name').getText()
+        return items[index].$('div.inventory_item_name').getText();
     }
 
     async getItemPriceByItemIndex(index) {

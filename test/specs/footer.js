@@ -21,7 +21,7 @@ describe('Footer', () => {
 
         // Then
         const actualAmountOfTabs = await InventoryPage.getAmountOfOpenedTabs();
-        assert.equal(originAmountOfTabs + 1, actualAmountOfTabs, "Twitter is not opened in a new tab")
+        assert.equal(originAmountOfTabs + 1, actualAmountOfTabs, "Twitter is not opened in a new tab");
         expect(await FooterComponent.isTwitterOpened()).toBe(true);
 
     })
@@ -36,7 +36,7 @@ describe('Footer', () => {
 
         // Then
         const actualAmountOfTabs = await InventoryPage.getAmountOfOpenedTabs();
-        assert.equal(originAmountOfTabs + 1, actualAmountOfTabs, "Facebook is not opened in a new tab")
+        assert.equal(originAmountOfTabs + 1, actualAmountOfTabs, "Facebook is not opened in a new tab");
         expect(await FooterComponent.isFacebookOpened()).toBe(true);
     })
 
@@ -50,7 +50,7 @@ describe('Footer', () => {
 
         // Then
         const actualAmountOfTabs = await InventoryPage.getAmountOfOpenedTabs();
-        assert.equal(originAmountOfTabs + 1, actualAmountOfTabs, "LinkedIn is not opened in a new tab")
+        assert.equal(originAmountOfTabs + 1, actualAmountOfTabs, "LinkedIn is not opened in a new tab");
         expect(await FooterComponent.isLinkedinOpened()).toBe(true);
     })
 })

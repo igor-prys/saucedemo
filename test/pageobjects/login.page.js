@@ -35,16 +35,16 @@ class LoginPage extends Page {
         const usernameErrorStyle = await $('#user-name.error');
         const isUsernameMarkedInvalid = await usernameErrorStyle.isDisplayed();
 
-        const isErrorIconDisplayed = await this.isCrossIconDisplayed(this.username)
-        return isErrorIconDisplayed && isUsernameMarkedInvalid
+        const isErrorIconDisplayed = await this.isCrossIconDisplayed(this.username);
+        return isErrorIconDisplayed && isUsernameMarkedInvalid;
     }
 
     async isPasswordMarkedInvalid() {
         const passwordErrorStyle = await $('#password.error');
         const isPasswordMarkedInvalid = await passwordErrorStyle.isDisplayed();
 
-        const isErrorIconDisplayed = await this.isCrossIconDisplayed(this.password)
-        return isErrorIconDisplayed && isPasswordMarkedInvalid
+        const isErrorIconDisplayed = await this.isCrossIconDisplayed(this.password);
+        return isErrorIconDisplayed && isPasswordMarkedInvalid;
     }
 
     async getCrossIconOfElement(element) {
@@ -53,8 +53,8 @@ class LoginPage extends Page {
     }
 
     async isCrossIconDisplayed(element) {
-        const crossIcon = await this.getCrossIconOfElement(element)
-        return crossIcon.isDisplayed()
+        const crossIcon = await this.getCrossIconOfElement(element);
+        return crossIcon.isDisplayed();
     }
 
     /**

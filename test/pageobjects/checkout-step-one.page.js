@@ -2,7 +2,7 @@ import Page from "./page.js";
 
 class CheckoutStepOnePage extends Page {
     get checkoutForm() {
-        return $('.checkout_info_wrapper form')
+        return $('.checkout_info_wrapper form');
     }
 
     get firtstName() {
@@ -18,7 +18,7 @@ class CheckoutStepOnePage extends Page {
     }
 
     get continueButton() {
-        return $('#continue')
+        return $('#continue');
     }
 
     async filoutCheckoutFormAndSend(firstName, lastName, postalCode) {
