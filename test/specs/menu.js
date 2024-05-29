@@ -1,92 +1,80 @@
-import { expect, $ } from '@wdio/globals'
-import { BASE_URL, LOGIN_CREDENTIALS, login } from '../common/login.js'
-import { addOrRemoveItemToCart } from '../common/inventory-items.js'
+import { expect } from '@wdio/globals'
+import { LOGIN_CREDENTIALS } from '../common/data.js'
+import MenuComponent from '../pageobjects/menu.component.js';
+import InventoryPage from '../pageobjects/inventory.page.js';
+import LoginPage from '../pageobjects/login.page.js';
+import AboutPage from '../pageobjects/about.page.js';
+import CartPage from '../pageobjects/cart.page.js';
 
 describe('Menu', () => {
     it('menu should contain all items', async () => {
         // Given
-        await login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
+        await LoginPage.open()
+        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password)
 
         // When
-        await openMenu();
+        await MenuComponent.openMenu();
 
         // Then
-        await expect($('#inventory_sidebar_link')).toBeExisting();
-        await expect($('#about_sidebar_link')).toBeExisting();
-        await expect($('#logout_sidebar_link')).toBeExisting();
-        await expect($('#reset_sidebar_link')).toBeExisting();
+        await expect(MenuComponent.allItemsLink).toBeExisting();
+        await expect(MenuComponent.aboutLink).toBeExisting();
+        await expect(MenuComponent.logoutLink).toBeExisting();
+        await expect(MenuComponent.resetLink).toBeExisting();
     })
 
     it('should click menu-item About', async () => {
         // Given
-        await login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
+        await LoginPage.open()
+        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password)
 
-        await openMenu();
-        const aboutLinkElement = await $('#about_sidebar_link');
+        await MenuComponent.openMenu();
 
         //When
-        await aboutLinkElement.click();
+        await MenuComponent.clickAboutLink();
 
         // Then
-        let currentUrl = await browser.getUrl();
-        expect(currentUrl).toBe('https://saucelabs.com/');
-        const button = await $('button=Test it all. Free');
-        const isButtonDisplayed = await button.isDisplayed();
+        expect(await AboutPage.isOpened()).toBe(true);
+        const isButtonDisplayed = await AboutPage.isTestItAllButtinDisplayed();
         expect(isButtonDisplayed).toBe(true);
     })
 
     it('should click menu-item Reset App State', async () => {
         // Given
-        await login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
+        await LoginPage.open()
+        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password)
 
         // add item to cart
-        const cartAmountElement = await $('.shopping_cart_container .shopping_cart_badge');
-        await addOrRemoveItemToCart(1);
-        await expect(cartAmountElement).toBeDisplayed();
-        const cartWithProductValue1 = await cartAmountElement.getText();
-        expect(cartWithProductValue1).toBe('1');
+        await InventoryPage.clickAddOrRemoveItemToCartButton(1);
+        expect(await InventoryPage.isCartWithItems()).toBe(true);
+        expect(await InventoryPage.getCartBadgeValue()).toBe('1');
 
-        await openMenu();
-
-        const resetLinkElement = await $('#reset_sidebar_link');
+        await MenuComponent.openMenu();
 
         //When
-        await resetLinkElement.click();
+        await MenuComponent.clickResetLink();
 
         // Then
-        await expect($('.shopping_cart_link')).toBeExisting();
-        await expect(cartAmountElement).not.toBeDisplayed();
+        expect(await InventoryPage.isCartButtonDisplayed()).toBe(true);
+        expect(await InventoryPage.isCartWithItems()).toBe(false);
     })
 
     it('should click menu-item All Items', async () => {
         // Given
-        await login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
+        await LoginPage.open()
+        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password)
 
         // Navigate to cart
-        const cartBtn = await $('.shopping_cart_link');
-        await cartBtn.click();
-        let currentUrl = await browser.getUrl();
-        expect(currentUrl).toBe(BASE_URL + '/cart.html');
+        await InventoryPage.clickCart();
 
-        await openMenu();
-
-        const allItemsLinkElement = await $('#inventory_sidebar_link');
+        expect(await CartPage.isOpened()).toBe(true);
+        await MenuComponent.openMenu();
 
         //When
-        await allItemsLinkElement.click();
+        await MenuComponent.clickAllItemsLink();
 
         // Then
-        currentUrl = await browser.getUrl();
-        expect(currentUrl).toBe(BASE_URL + '/inventory.html');
-        await expect($('#inventory_container')).toBeExisting();
+        expect(await InventoryPage.isOpened()).toBe(true);
+        expect(await InventoryPage.isDisplayed()).toBe(true);
     })
-
-
-    async function openMenu() {
-        const menuElement = await $('#react-burger-menu-btn');
-        const isMenuVisible = await menuElement.isDisplayed();
-        expect(isMenuVisible).toBe(true);
-        await menuElement.click();
-    }
 })
 

@@ -1,20 +1,20 @@
-import { LOGIN_CREDENTIALS, login, logout } from '../common/login.js'
-import { addOrRemoveItemToCart } from '../common/inventory-items.js'
+import LoginPage from '../pageobjects/login.page.js';
+import MenuComponent from '../pageobjects/menu.component.js';
+import { LOGIN_CREDENTIALS } from '../common/data.js'
+import InventoryPage from '../pageobjects/inventory.page.js';
 
 describe('Cart', () => {
     it('Saving the card after logout ', async () => {
-        await login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
+        await LoginPage.open();
+        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
 
-        // add item to cart
-        await addOrRemoveItemToCart(1);
+        await InventoryPage.clickAddOrRemoveItemToCartButton(1);
 
-        await logout();
-        await login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
+        await MenuComponent.logout();
+        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
 
-        const cartAmountElement = await $('.shopping_cart_container .shopping_cart_badge');
-        await expect(cartAmountElement).toBeDisplayed();
-        const cartValue = await cartAmountElement.getText();
-        expect(cartValue).toBe('1');
+        expect(await InventoryPage.isCartBadgeDisplayed()).toBe(true);
+        expect(await InventoryPage.getCartBadgeValue()).toBe('1');
     })
 })
 

@@ -1,6 +1,9 @@
-import { expect, browser, $ } from '@wdio/globals'
-import { BASE_URL, LOGIN_CREDENTIALS, login, logout } from '../common/login.js'
+import { expect } from '@wdio/globals'
+import { LOGIN_CREDENTIALS } from '../common/data.js'
 
+import MenuComponent from '../pageobjects/menu.component.js';
+import LoginPage from '../pageobjects/login.page.js';
+import InventoryPage from '../pageobjects/inventory.page.js';
 
 const ERROR_MESSAGES = {
     loginError: "Epic sadface: Username and password do not match any user in this service",
@@ -8,103 +11,89 @@ const ERROR_MESSAGES = {
     passwordRequires: "Epic sadface: Password is required"
 }
 
-
 describe('Login in', () => {
     it('should login with valid credentials', async () => {
-        await login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
+        // Given
+        await LoginPage.open()
+
+        // When
+        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password)
 
         // await browser.pause(3000)
 
+        // Then
         const currentUrl = await browser.getUrl();
-        expect(currentUrl).toBe(BASE_URL + '/inventory.html');
+        expect(currentUrl).toBe(InventoryPage.getUrl());
 
-        const cartElement = await $('#shopping_cart_container');
-        const isCartElemetDisplayed = await cartElement.isDisplayed();
-        expect(isCartElemetDisplayed).toBe(true);
-
-        const isInventoryDisplayed = await $('#inventory_container').isDisplayed();
-        expect(isInventoryDisplayed).toBe(true);
-
-        const isProductsHeaderDisplayed = await $('.header_secondary_container').isDisplayed();
-        expect(isProductsHeaderDisplayed).toBe(true);
+        const isInventoryPageDisplayed = await InventoryPage.isDisplayed();
+        expect(isInventoryPageDisplayed).toBe(true);
     })
 
     it('login with invalid password', async () => {
-        await login(LOGIN_CREDENTIALS.login, "invalidPassword");
+        // Given
+        await LoginPage.open()
 
         // When
-        await $('input[type="submit"]').click();
+        await LoginPage.login(LOGIN_CREDENTIALS.login, 'INVALID_PASSWORD')
 
         // Then
-        await verifyLoginValidationErrors(ERROR_MESSAGES.loginError);
+        expect(await LoginPage.isErrorDisplayed()).toBe(true);
+        expect(await LoginPage.getErrorMessage()).toBe(ERROR_MESSAGES.loginError);
+        expect(await LoginPage.isPasswordMarkedInvalid()).toBe(true);
+        expect(await LoginPage.isUsernameMarkedInvalid()).toBe(true);
     })
 
     it('login with invalid username', async () => {
+        // Given
+        await LoginPage.open()
         // When
-        await login('invalid_user', LOGIN_CREDENTIALS.password);
+        await LoginPage.login('INVALID_USERNAME', LOGIN_CREDENTIALS.password)
 
         // Then
-        await verifyLoginValidationErrors(ERROR_MESSAGES.loginError);
+        await expect(await LoginPage.isErrorDisplayed()).toBe(true);
+        await expect(await LoginPage.getErrorMessage()).toBe(ERROR_MESSAGES.loginError);
+        await expect(await LoginPage.isPasswordMarkedInvalid()).toBe(true);
+        await expect(await LoginPage.isUsernameMarkedInvalid()).toBe(true);
     })
 
     it('login without username', async () => {
+        // Given
+        await LoginPage.open()
+
         // When
-        await login('', LOGIN_CREDENTIALS.password);
+        await LoginPage.login('', LOGIN_CREDENTIALS.password)
 
         // Then
-        await verifyLoginValidationErrors(ERROR_MESSAGES.usernameRequires);
+        await expect(await LoginPage.isErrorDisplayed()).toBe(true);
+        await expect(await LoginPage.getErrorMessage()).toBe(ERROR_MESSAGES.usernameRequires);
+        await expect(await LoginPage.isPasswordMarkedInvalid()).toBe(true);
+        await expect(await LoginPage.isUsernameMarkedInvalid()).toBe(true);
     })
 
     it('login without password', async () => {
-        // When
-        await login(LOGIN_CREDENTIALS.login, '');
+        // Given
+        await LoginPage.open()
 
         // When
-        await $('input[type="submit"]').click();
+        await LoginPage.login(LOGIN_CREDENTIALS.login, '')
 
         // Then
-        await verifyLoginValidationErrors(ERROR_MESSAGES.passwordRequires);
+        await expect(await LoginPage.isErrorDisplayed()).toBe(true);
+        await expect(await LoginPage.getErrorMessage()).toBe(ERROR_MESSAGES.passwordRequires);
+        await expect(await LoginPage.isPasswordMarkedInvalid()).toBe(true);
+        await expect(await LoginPage.isUsernameMarkedInvalid()).toBe(true);
     })
-
 
     it('should logout successfully', async () => {
         // Given
-        await login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
+        await LoginPage.open()
+        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password)
 
         // When
-        await logout();
+        await MenuComponent.logout();
 
         // Then
-        let currentUrl = await browser.getUrl();
-        if (currentUrl.endsWith("/")) {
-            currentUrl = currentUrl.slice(0, -1);
-        }
-        expect(currentUrl).toBe(BASE_URL);
+        expect(await LoginPage.isOpened()).toBe(true);
     })
-
-    async function verifyLoginValidationErrors(errorMessage) {
-        const errorContainer = await $('.error-message-container.error');
-        const isErrorDisplayedAfterLogin = await errorContainer.isDisplayed();
-        expect(isErrorDisplayedAfterLogin).toBe(true);
-
-        const errorMessageElement = await $('[data-test="error"]');
-        const errorMessageText = await errorMessageElement.getText();
-        expect(errorMessageText).toBe(errorMessage);
-
-        await expect($('#user-name.error')).toBeExisting();
-        await expect($('#password.error')).toBeExisting();
-
-        const usernameElement = await $("#user-name");
-        await verifyInputValidationErrors(usernameElement);
-
-        const passwordElement = await $("#password");
-        await verifyInputValidationErrors(passwordElement);
-    }
-
-    async function verifyInputValidationErrors(el) {
-        const elContainer = await el.parentElement();
-        const crossIcon = await elContainer.$('svg.error_icon');
-        await expect(crossIcon).toBeExisting();
-    }
 })
 
