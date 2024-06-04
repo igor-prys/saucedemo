@@ -1,48 +1,48 @@
-import LoginPage from '../pageobjects/login.page.js';
+import loginPage from '../pageobjects/login.page.js';
 import { expect } from '@wdio/globals';
 import { LOGIN_CREDENTIALS } from '../common/data.js';
-import InventoryPage from '../pageobjects/inventory.page.js';
-import CartPage from '../pageobjects/cart.page.js';
-import CheckoutStepOnePage from '../pageobjects/checkout-step-one.page.js';
-import CheckoutStepTwoPage from '../pageobjects/checkout-step-two.page.js';
-import CheckoutCompletePage from '../pageobjects/checkout-complete.page.js';
+import inventoryPage from '../pageobjects/inventory.page.js';
+import cartPage from '../pageobjects/cart.page.js';
+import checkoutStepOnePage from '../pageobjects/checkout-step-one.page.js';
+import checkoutStepTwoPage from '../pageobjects/checkout-step-two.page.js';
+import checkoutCompletePage from '../pageobjects/checkout-complete.page.js';
 
 describe('Checkout', () => {
     before(async () => {
-        await LoginPage.open();
-        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
+        await loginPage.open();
+        await loginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
     });
 
     it('Valid Checkout', async () => {
-        expect(await InventoryPage.isCartButtonDisplayed()).toBe(true);
-        expect(await InventoryPage.isCartBadgeDisplayed()).toBe(false);
+        expect(await inventoryPage.isCartButtonDisplayed()).toBe(true);
+        expect(await inventoryPage.isCartBadgeDisplayed()).toBe(false);
 
         // add items to cart
-        await InventoryPage.clickAddOrRemoveItemToCartButton(1);
-        await InventoryPage.clickAddOrRemoveItemToCartButton(2);
+        await inventoryPage.clickAddOrRemoveItemToCartButton(1);
+        await inventoryPage.clickAddOrRemoveItemToCartButton(2);
 
-        const inventoryItemName1 = await InventoryPage.getItemTitle(1);
-        const inventoryItemPrice1 = await InventoryPage.getItemPrice(1);
-        const inventoryItemName2 = await InventoryPage.getItemTitle(2);
-        const inventoryItemPrice2 = await InventoryPage.getItemPrice(2);
+        const inventoryItemName1 = await inventoryPage.getItemTitle(1);
+        const inventoryItemPrice1 = await inventoryPage.getItemPrice(1);
+        const inventoryItemName2 = await inventoryPage.getItemTitle(2);
+        const inventoryItemPrice2 = await inventoryPage.getItemPrice(2);
 
-        await InventoryPage.clickCart();
-        expect(await CartPage.isOpened()).toBe(true);
+        await inventoryPage.clickCart();
+        expect(await cartPage.isOpened()).toBe(true);
 
         // navigate to checkout page
-        await CartPage.clickCheckoutButton();
-        expect(await CheckoutStepOnePage.isOpened()).toBe(true);
-        await expect(await CheckoutStepOnePage.isCheckoutFormdIsDisplayed()).toBe(true);
-        await CheckoutStepOnePage.filoutCheckoutFormAndSend("FIRST_NAME", "LAST_NAME", "12-345");
+        await cartPage.clickCheckoutButton();
+        expect(await checkoutStepOnePage.isOpened()).toBe(true);
+        await expect(await checkoutStepOnePage.isCheckoutFormdIsDisplayed()).toBe(true);
+        await checkoutStepOnePage.filoutCheckoutFormAndSend("FIRST_NAME", "LAST_NAME", "12-345");
 
         // verify checkout overview
-        expect(await CheckoutStepTwoPage.isOpened()).toBe(true)
+        expect(await checkoutStepTwoPage.isOpened()).toBe(true)
 
-        const items = await CheckoutStepTwoPage.cartItems;
-        const itemName1 = await CheckoutStepTwoPage.getItemNameByItemIndex(0);
-        const itemPrice1 = await CheckoutStepTwoPage.getItemPriceByItemIndex(0);
-        const itemName2 = await CheckoutStepTwoPage.getItemNameByItemIndex(1);
-        const itemPrice2 = await CheckoutStepTwoPage.getItemPriceByItemIndex(1);
+        const items = await checkoutStepTwoPage.cartItems;
+        const itemName1 = await checkoutStepTwoPage.getItemNameByItemIndex(0);
+        const itemPrice1 = await checkoutStepTwoPage.getItemPriceByItemIndex(0);
+        const itemName2 = await checkoutStepTwoPage.getItemNameByItemIndex(1);
+        const itemPrice2 = await checkoutStepTwoPage.getItemPriceByItemIndex(1);
         expect(items.length).toBe(2);
         expect(itemName1).toBe(inventoryItemName1);
         expect(itemPrice1).toBe(inventoryItemPrice1);
@@ -53,43 +53,43 @@ describe('Checkout', () => {
         const price1 = itemPrice1.substring(1);
         const price2 = itemPrice2.substring(1);
         const expectedTotal = (parseFloat(price1) + parseFloat(price2));
-        const totalPrice = await CheckoutStepTwoPage.getPriceTotalNumericValue();
+        const totalPrice = await checkoutStepTwoPage.getPriceTotalNumericValue();
         expect(totalPrice).toBe(expectedTotal);
 
-        await CheckoutStepTwoPage.clickFinishButton();
-        expect(await CheckoutCompletePage.isOpened()).toBe(true);
-        const completeCheckoutMessage = await CheckoutCompletePage.getCompleteHeaderValue();
+        await checkoutStepTwoPage.clickFinishButton();
+        expect(await checkoutCompletePage.isOpened()).toBe(true);
+        const completeCheckoutMessage = await checkoutCompletePage.getCompleteHeaderValue();
         expect(completeCheckoutMessage).toBe('Thank you for your order!');
 
         // back home
-        await CheckoutCompletePage.clickBackHomeButton();
-        expect(await InventoryPage.isOpened()).toBe(true);
-        expect(await InventoryPage.isProductListDisplayed()).toBe(true);
-        expect(await InventoryPage.isCartButtonDisplayed()).toBe(true);
-        expect(await InventoryPage.isCartBadgeDisplayed()).toBe(false);
+        await checkoutCompletePage.clickBackHomeButton();
+        expect(await inventoryPage.isOpened()).toBe(true);
+        expect(await inventoryPage.isProductListDisplayed()).toBe(true);
+        expect(await inventoryPage.isCartButtonDisplayed()).toBe(true);
+        expect(await inventoryPage.isCartBadgeDisplayed()).toBe(false);
     })
 
     it('Checkout without products', async () => {
         // verify cart is present and empty
-        expect(await InventoryPage.isCartButtonDisplayed()).toBe(true);
-        expect(await InventoryPage.isCartBadgeDisplayed()).toBe(false);
+        expect(await inventoryPage.isCartButtonDisplayed()).toBe(true);
+        expect(await inventoryPage.isCartBadgeDisplayed()).toBe(false);
 
         // navigate to cart
-        await InventoryPage.clickCart();
-        expect(await CartPage.isOpened()).toBe(true);
+        await inventoryPage.clickCart();
+        expect(await cartPage.isOpened()).toBe(true);
 
         // get list of products in cart
-        const amountOfItems = await CartPage.getAmoutOfItems();
+        const amountOfItems = await cartPage.getAmoutOfItems();
         expect(amountOfItems).toBe(0);
 
         // click checkout
-        await CartPage.clickCheckoutButton();
+        await cartPage.clickCheckoutButton();
 
         // verify user left in the cart page
-        expect(await CartPage.isOpened()).toBe(true);
+        expect(await cartPage.isOpened()).toBe(true);
 
         // search for error message
-        expect(await CartPage.isEmptyCartErrorDisplayed()).toBe(true);
+        expect(await cartPage.isEmptyCartErrorDisplayed()).toBe(true);
     })
 })
 

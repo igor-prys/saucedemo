@@ -1,20 +1,20 @@
-import LoginPage from '../pageobjects/login.page.js';
-import MenuComponent from '../pageobjects/menu.component.js';
+import loginPage from '../pageobjects/login.page.js';
+import menuComponent from '../pageobjects/menu.component.js';
 import { LOGIN_CREDENTIALS } from '../common/data.js';
-import InventoryPage from '../pageobjects/inventory.page.js';
+import inventoryPage from '../pageobjects/inventory.page.js';
 
 describe('Cart', () => {
     it('Saving the card after logout ', async () => {
-        await LoginPage.open();
-        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
+        await loginPage.open();
+        await loginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
 
-        await InventoryPage.clickAddOrRemoveItemToCartButton(1);
+        await inventoryPage.clickAddOrRemoveItemToCartButton(1);
 
-        await MenuComponent.logout();
-        await LoginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
+        await menuComponent.logout();
+        await loginPage.login(LOGIN_CREDENTIALS.login, LOGIN_CREDENTIALS.password);
 
-        expect(await InventoryPage.isCartBadgeDisplayed()).toBe(true);
-        expect(await InventoryPage.getCartBadgeValue()).toBe('1');
+        expect(await inventoryPage.isCartBadgeDisplayed()).toBe(true);
+        expect(await inventoryPage.getCartBadgeValue()).toBe('1');
     })
 })
 
